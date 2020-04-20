@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	
+	<persistence-unit name="onewebPU" transaction-type="JTA">
+		<!-- Datasource de MySQL -->
+		<jta-data-source>java:/OneMyDS</jta-data-source>
+		<class>pe.edu.upc.oneweb.model.entity.Detenido</class>
+		<class>pe.edu.upc.oneweb.model.entity.Multa</class>
+		<class>pe.edu.upc.oneweb.model.entity.Comisaria</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property
+				name="javax.persistence.schema-generation.database.action"
+				value="none" />
+		</properties>
+	</persistence-unit>
+	
+</persistence>
