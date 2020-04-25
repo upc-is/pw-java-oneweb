@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Comisaria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name = "denominacion", length = 30, nullable = false)	
 	private String denominacion;

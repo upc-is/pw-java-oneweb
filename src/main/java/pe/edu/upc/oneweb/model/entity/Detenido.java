@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 public class Detenido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name = "dni", length = 8, nullable = false)
 	private String dni;
