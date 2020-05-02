@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 import pe.edu.upc.oneweb.business.DetenidoBusiness;
 import pe.edu.upc.oneweb.model.entity.Detenido;
@@ -20,44 +21,41 @@ public class DetenidoBusinessImpl implements DetenidoBusiness, Serializable {
 	private DetenidoRepository detenidoRepository;
 	
 	@Override
+	@Transactional
 	public Integer create(Detenido t) throws Exception {
 		return detenidoRepository.insert(t);
 	}
 
 	@Override
+	@Transactional
 	public Integer update(Detenido t) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.update(t);
 	}
 
 	@Override
+	@Transactional
 	public Integer delete(Detenido t) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.delete(t);
 	}
 
 	@Override
 	public List<Detenido> readAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.findAll();
 	}
 
 	@Override
 	public Optional<Detenido> readById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.findById(id);
 	}
 
 	@Override
 	public Optional<Detenido> readByDni(String dni) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.findByDni(dni);
 	}
 
 	@Override
 	public List<Detenido> readByApellidos(String apellidos) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return detenidoRepository.findByApellidos(apellidos);
 	}
 
 }
