@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>CRUD Detenidos</title>
+</h:head>
+
+<h:body>
+
+	<p:dataTable var="detenido" value="#{detenidoController.detenidos}">
+		<p:column headerText="Id">
+			<h:outputText value="#{detenido.id}" />
+		</p:column>
+
+		<p:column headerText="Dni">
+			<h:outputText value="#{detenido.dni}" />
+		</p:column>
+
+		<p:column headerText="Apellidos">
+			<h:outputText value="#{detenido.apellidos}" />
+		</p:column>
+		
+		<p:column headerText="Nombres">
+			<h:outputText value="#{detenido.nombres}" />
+		</p:column>
+
+		<p:column headerText="Distrito">
+			<h:outputText value="#{detenido.distrito}" />
+		</p:column>
+	</p:dataTable>
+
+
+</h:body>
+</html>
