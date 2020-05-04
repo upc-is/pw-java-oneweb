@@ -8,6 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
+
 import pe.edu.upc.oneweb.business.DetenidoBusiness;
 import pe.edu.upc.oneweb.model.entity.Detenido;
 
@@ -30,13 +32,47 @@ public class DetenidoController implements Serializable {
 		detenidoSelected = new Detenido();
 		loadDetenidos();
 	}
-	
+	// Método para cargar la lista de detenidos
 	public void loadDetenidos() {
 		try {
-			detenidoBusiness.readAll();
+			detenidos = detenidoBusiness.readAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	// Método para registra un nuevo detenido: Resetear el formulario
+	public void resetForm() {
+		detenido = new Detenido();
+		detenido.setDistrito("Villa");
+		detenidoSelected = null;
+	}
+	
+	// Método para guardar los datos del Detenido
+	public void saveDetenido() {
+		try {
+			if(detenido.getId() > 0)
+				detenidoBusiness.update(detenido);
+			else			
+				detenidoBusiness.create(detenido);
+			loadDetenidos();
+			resetForm();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Método que transfiere el objeto seleccionado a detenidoSelected
+	public void selectDetenido(SelectEvent e) {
+		detenidoSelected = (Detenido)e.getObject();
+	}
+	
+	// Método que permite enviar la data del detenido seleccionado al formulario
+	public void editDetenido() {
+		if(detenidoSelected.getId() > 0)
+			detenido = detenidoSelected;
+		else
+			System.out.println("No selecciono un detenido");
 	}
 	
 	public DetenidoBusiness getDetenidoBusiness() {

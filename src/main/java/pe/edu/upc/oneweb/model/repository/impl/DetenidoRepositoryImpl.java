@@ -49,7 +49,7 @@ public class DetenidoRepositoryImpl implements DetenidoRepository, Serializable 
 		// 
 		List<Detenido> detenidos = new ArrayList<>();
 		// Elaborando la sentencia JPQL 
-		TypedQuery<Detenido> query = em.createQuery("SELECT d FROM Detenido AS d", Detenido.class);
+		TypedQuery<Detenido> query = em.createQuery("SELECT d FROM Detenido d", Detenido.class);
 		// Ejecuta el query y devuelve el resultado del query
 		detenidos = query.getResultList();
 		return detenidos;

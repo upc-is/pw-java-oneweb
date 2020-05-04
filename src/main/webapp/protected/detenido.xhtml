@@ -11,28 +11,76 @@
 
 <h:body>
 
-	<p:dataTable var="detenido" value="#{detenidoController.detenidos}">
+<h:form id="frmDetenido">
+	
+	<p:panelGrid id="panDetenido" columns="4">
+	    <p:outputLabel for="txtDni" value="DNI :" />
+	    <p:inputText id="txtDni" value="#{detenidoController.detenido.dni}" />
+	 
+	    <p:outputLabel for="txtApellidos" value="Apellidos :" />
+	    <p:inputText id="txtApellidos" value="#{detenidoController.detenido.apellidos}" />
+	    
+	    <p:outputLabel for="txtNombres" value="Nombres :" />
+	    <p:inputText id="txtNombres" value="#{detenidoController.detenido.nombres}" />
+	 
+	    <p:outputLabel for="dateFecNac" value="Fecha de Nacimiento :" />
+	    <p:datePicker id="dateFecNac" showIcon="true" style="width:auto" 
+	    	value="#{detenidoController.detenido.fechaNacimiento}"/>
+ 
+	    <p:outputLabel for="selDistrito" value="Distrito :" />
+	    <p:selectOneMenu id="selDistrito" value="#{detenidoController.detenido.distrito}">
+	        <f:selectItem itemLabel="Chorrillos" itemValue="Chorrillos" />
+	        <f:selectItem itemLabel="Villa" itemValue="Villa" />
+	        <f:selectItem itemLabel="Surco" itemValue="Surco" />
+	        <f:selectItem itemLabel="Breña" itemValue="Breña" />
+	    </p:selectOneMenu>
+	</p:panelGrid>
+	
+
+	<p:dataTable id="dtDetenido" value="#{detenidoController.detenidos}" var="detenido" 
+			emptyMessage="No exite datos" rowKey="#{detenido.id}"
+			paginator="true" rows="5" selectionMode="simple">
+		<f:facet name="header">
+			<p:outputLabel>Lista de Detenidos</p:outputLabel>
+		</f:facet>
+		<p:ajax event="rowSelect" listener="#{detenidoController.selectDetenido}" />
+		
 		<p:column headerText="Id">
 			<h:outputText value="#{detenido.id}" />
 		</p:column>
-
 		<p:column headerText="Dni">
 			<h:outputText value="#{detenido.dni}" />
 		</p:column>
-
 		<p:column headerText="Apellidos">
 			<h:outputText value="#{detenido.apellidos}" />
-		</p:column>
-		
+		</p:column>		
 		<p:column headerText="Nombres">
 			<h:outputText value="#{detenido.nombres}" />
 		</p:column>
-
 		<p:column headerText="Distrito">
 			<h:outputText value="#{detenido.distrito}" />
 		</p:column>
+		
 	</p:dataTable>
-
+	
+	
+	<p:toolbar>
+		<f:facet name="left">
+			<p:commandButton value="Nuevo" icon="pi pi-file" 
+				actionListener="#{detenidoController.resetForm()}" update="@form" />
+				
+			<p:commandButton value="Editar" icon="pi pi-pencil" 
+				process="@this" 
+				actionListener="#{detenidoController.editDetenido()}"
+				update=":frmDetenido:panDetenido"/>
+			
+			<p:commandButton value="Guardar" icon="pi pi-save"
+				process="@this :frmDetenido:panDetenido" 
+				actionListener="#{detenidoController.saveDetenido()}" 
+				update=":frmDetenido:panDetenido :frmDetenido:dtDetenido" ajax="false" />
+		</f:facet>
+	</p:toolbar>
+</h:form>
 
 </h:body>
 </html>
