@@ -13,6 +13,8 @@
 
 <h:form id="frmDetenido">
 	
+	<p:growl id="growl" life="2000" />
+	
 	<p:panelGrid id="panDetenido" columns="4">
 	    <p:outputLabel for="txtDni" value="DNI :" />
 	    <p:inputText id="txtDni" value="#{detenidoController.detenido.dni}" />

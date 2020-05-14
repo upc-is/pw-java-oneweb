@@ -123,5 +123,10 @@ public class Detenido {
 		this.comisarias = comisarias;
 	}
 	
+	@Override
+    public String toString() {
+        return dni;
+    }
+	
 }
 

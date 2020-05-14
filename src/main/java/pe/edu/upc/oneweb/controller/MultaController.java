@@ -13,29 +13,43 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 
 import pe.edu.upc.oneweb.business.DetenidoBusiness;
+import pe.edu.upc.oneweb.business.MultaBusiness;
 import pe.edu.upc.oneweb.model.entity.Detenido;
+import pe.edu.upc.oneweb.model.entity.Multa;
 import pe.edu.upc.oneweb.utils.Accion;
 
 @Named
 @ViewScoped
-public class DetenidoController implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class MultaController implements Serializable {
+private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private MultaBusiness multaBusiness;
 	
 	@Inject
 	private DetenidoBusiness detenidoBusiness;
 	
-	private Detenido detenido;
-	private Detenido detenidoSelected;
+	private Multa multa;
+	private Multa multaSelected;
+	private List<Multa> multas;
 	private List<Detenido> detenidos;
 	private Accion accion;
 	
 	@PostConstruct
 	public void init() {
-		detenido = new Detenido();
-		detenidoSelected = new Detenido();
+		multa = new Multa();
+		multaSelected = new Multa();
+		loadMultas();
 		loadDetenidos();
 		accion = Accion.NONE;
+	}
+	// Método para cargar la lista de multas
+	public void loadMultas() {
+		try {
+			multas = multaBusiness.readAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	// Método para cargar la lista de detenidos
 	public void loadDetenidos() {
@@ -47,98 +61,82 @@ public class DetenidoController implements Serializable {
 	}
 	// Método para registra un nuevo detenido: Resetear el formulario
 	public void resetForm() {
-		detenido = new Detenido();
-		detenido.setDistrito("Villa");
-		detenidoSelected = null;
+		multa = new Multa();
+		multaSelected = null;
 		accion = Accion.NUEVO;
-		addMessage("Limpiando el formulario para un nuevo Detenido");
+		addMessage("Limpiando el formulario para un nuevo elemento");
 	}
 	
 	// Método para guardar los datos del Detenido
-	public void saveDetenido() {
-		if(detenido.getDni().isEmpty() || detenido.getApellidos().isEmpty() 
-				|| detenido.getFechaNacimiento() == null) {
-			addMessage("El DNI o el Apellido o la Fecha de nacimiento esta vacio, por favor ingresar para guardar");
+	public void saveMulta() {
+		if(multa.getInfraccion().isEmpty()|| multa.getFechaDetencion() == null) {
+			addMessage("La infraccción o la Fecha de detencion esta vacio, por favor ingresar para guardar");
 		}
 		else {
 		
 			try {
 				if(accion == Accion.EDITAR) {
-					detenidoBusiness.update(detenido);
-					addMessage("El Detenido se actualizo correctamente");
+					multaBusiness.update(multa);
+					addMessage("La multa se actualizo correctamente");
 				}					
 				else if (accion == Accion.NUEVO) {
-					detenidoBusiness.create(detenido);
-					addMessage("El Detenido se grabo correctamente");
+					multaBusiness.create(multa);
+					addMessage("La multa se grabo correctamente");
 				}
 					
-				loadDetenidos();
+				loadMultas();
 				resetForm();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-			
-		
-		
+	
 	}
 	
 	// Método que transfiere el objeto seleccionado a detenidoSelected
-	public void selectDetenido(SelectEvent e) {
-		detenidoSelected = (Detenido)e.getObject();
+	public void selectMulta(SelectEvent e) {
+		multaSelected = (Multa)e.getObject();
 	}
 	
 	// Método que permite enviar la data del detenido seleccionado al formulario
-	public void editDetenido() {
-		if(detenidoSelected.getId() > 0) {
-			detenido = detenidoSelected;
+	public void editMulta() {
+		if(multaSelected.getId() > 0) {
+			multa = multaSelected;
 			accion = Accion.EDITAR;
 		}
 			
 		else
-			addMessage("No selecciono un detenido");
+			addMessage("No selecciono un elmento");
 	}
 	
 	public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-	
-	public DetenidoBusiness getDetenidoBusiness() {
-		return detenidoBusiness;
+	public Multa getMulta() {
+		return multa;
 	}
-
-	public void setDetenidoBusiness(DetenidoBusiness detenidoBusiness) {
-		this.detenidoBusiness = detenidoBusiness;
+	public void setMulta(Multa multa) {
+		this.multa = multa;
 	}
-
-	public Detenido getDetenido() {
-		return detenido;
+	public Multa getMultaSelected() {
+		return multaSelected;
 	}
-
-	public void setDetenido(Detenido detenido) {
-		this.detenido = detenido;
+	public void setMultaSelected(Multa multaSelected) {
+		this.multaSelected = multaSelected;
 	}
-
-	public Detenido getDetenidoSelected() {
-		return detenidoSelected;
+	public List<Multa> getMultas() {
+		return multas;
 	}
-
-	public void setDetenidoSelected(Detenido detenidoSelected) {
-		this.detenidoSelected = detenidoSelected;
+	public void setMultas(List<Multa> multas) {
+		this.multas = multas;
 	}
-
 	public List<Detenido> getDetenidos() {
 		return detenidos;
 	}
-
 	public void setDetenidos(List<Detenido> detenidos) {
 		this.detenidos = detenidos;
 	}
-
-	
-
-	
 	
 }

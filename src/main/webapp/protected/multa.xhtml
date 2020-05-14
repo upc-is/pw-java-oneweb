@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>CRUD Multa</title>
+</h:head>
+
+<h:body>
+
+<h:form id="frmMulta">
+	
+	<p:growl id="growl" life="2000" />
+	
+	<p:panelGrid id="panMulta" columns="4">
+	    <p:outputLabel for="selDetenido" value="Detenido :" />
+	    <p:selectOneMenu id="selDetenido" value="#{multaController.multa.detenido}">
+	    	<f:selectItem itemLabel="Choose one .." itemValue="#{null}" />
+	        <f:selectItems value="#{multaController.detenidos}" var="detenido" 
+	        	itemLabel="#{detenido.dni.concat(': ').concat(detenido.apellidos).concat(' ').concat(detenido.nombres)}" 
+	        	itemValue="#{detenido}" />
+	    </p:selectOneMenu>
+
+	    <p:outputLabel for="dateFecDet" value="Fecha de Detencion :" />
+	    <p:datePicker id="dateFecDet" showIcon="true" style="width:auto" 
+	    	value="#{multaController.multa.fechaDetencion}"/>
+	 
+	    <p:outputLabel for="txtDireccion" value="Dirección :" />
+	    <p:inputText id="txtDireccion" value="#{multaController.multa.direccion}" />
+	    
+	    <p:outputLabel for="selInfraccion" value="Infracción :" />
+	    <p:selectOneMenu id="selInfraccion" value="#{multaController.multa.infraccion}">
+	        <f:selectItem itemLabel="Sin Mascarilla" itemValue="DL-1251" />
+	        <f:selectItem itemLabel="Sin Pase" itemValue="DL-1252" />
+	        <f:selectItem itemLabel="Toque de queda" itemValue="DL-1253" />
+	        <f:selectItem itemLabel="En pareja" itemValue="DL-1254" />
+	    </p:selectOneMenu>
+	    
+	    <p:outputLabel for="txtMonto" value="Monto :" />
+	    <p:inputNumber id="txtMonto" value="#{multaController.multa.monto}" />
+	    
+	</p:panelGrid>
+	
+
+	<p:dataTable id="dtMulta" value="#{multaController.multas}" var="multa" 
+			emptyMessage="No exite datos" rowKey="#{multa.id}"
+			paginator="true" rows="5" selectionMode="simple">
+		<f:facet name="header">
+			<p:outputLabel>Lista de Multas</p:outputLabel>
+		</f:facet>
+		<p:ajax event="rowSelect" listener="#{multaController.selectMulta}" />
+		
+		<p:column headerText="Id">
+			<h:outputText value="#{multa.id}" />
+		</p:column>
+		<p:column headerText="Detenido">
+			<h:outputText value="#{multa.detenido.dni.concat(': ').concat(multa.detenido.apellidos).concat(' ').concat(multa.detenido.nombres)}" />
+		</p:column>
+		<p:column headerText="fecha Detencion">
+			<h:outputText value="#{multa.fechaDetencion}" />
+		</p:column>		
+		<p:column headerText="Dirección">
+			<h:outputText value="#{multa.direccion}" />
+		</p:column>
+		<p:column headerText="Infracción">
+			<h:outputText value="#{multa.infraccion}" />
+		</p:column>
+		<p:column headerText="Monto">
+			<h:outputText value="#{multa.monto}" />
+		</p:column>
+		
+	</p:dataTable>
+	
+	
+	<p:toolbar>
+		<f:facet name="left">
+			<p:commandButton value="Nuevo" icon="pi pi-file" 
+				actionListener="#{multaController.resetForm()}" update="@form" />
+				
+			<p:commandButton value="Editar" icon="pi pi-pencil" 
+				process="@this" 
+				actionListener="#{multaController.editMulta()}"
+				update=":frmMulta:panMulta"/>
+			
+			<p:commandButton value="Guardar" icon="pi pi-save"
+				process="@this :frmMulta:panMulta" 
+				actionListener="#{multaController.saveMulta()}" 
+				update=":frmMulta:panMulta :frmMulta:dtMulta" ajax="false" />
+		</f:facet>
+	</p:toolbar>
+</h:form>
+
+</h:body>
+</html>
